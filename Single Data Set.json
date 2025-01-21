@@ -1,0 +1,275 @@
+{
+    "domain": "www.ursulinen.at",
+    "endpoints": [
+      {
+        "endpoint": "/block-list",
+        "response": {
+          "domain": "www.ursulinen.at",
+          "blocklists": []
+        }
+      },
+      {
+        "endpoint": "/cookies",
+        "response": {
+          "https://www.ursulinen.at": {
+            "cookies": {
+              "value": {
+                "headerCookies": null,
+                "clientCookies": []
+              },
+              "error": null,
+              "warning": null
+            }
+          }
+        }
+      },
+      {
+        "endpoint": "/dns-handler",
+        "response": {
+          "Lookup": {
+            "address": "188.40.2.14",
+            "family": 4
+          },
+          "A": ["188.40.2.14"],
+          "AAAA": null,
+          "MX": null,
+          "TXT": null,
+          "NS": null,
+          "CNAME": null,
+          "SOA": null,
+          "SRV": null,
+          "PTR": null
+        }
+      },
+      {
+        "endpoint": "/dnssec",
+        "response": {
+          "DNSKEY": {
+            "type": "DNSKEY",
+            "isFound": false,
+            "answer": null,
+            "response": {
+              "Status": 0,
+              "TC": false,
+              "RD": true,
+              "RA": true,
+              "AD": false,
+              "CD": false,
+              "Question": [
+                {
+                  "name": "www.ursulinen.at.",
+                  "type": 48
+                }
+              ],
+              "Authority": [
+                {
+                  "name": "ursulinen.at.",
+                  "type": 6,
+                  "TTL": 300,
+                  "data": "ns1.hostprofis.com. hostmaster.ns1.hostprofis.com. 2024012946 14400 3600 604800 600"
+                }
+              ],
+              "Comment": "Response from ns1.hostprofis.com.(5.9.190.96)."
+            }
+          },
+          "DS": {
+            "type": "DS",
+            "isFound": false,
+            "answer": null,
+            "response": {
+              "Status": 0,
+              "TC": false,
+              "RD": true,
+              "RA": true,
+              "AD": false,
+              "CD": false,
+              "Question": [
+                {
+                  "name": "www.ursulinen.at.",
+                  "type": 43
+                }
+              ],
+              "Authority": [
+                {
+                  "name": "ursulinen.at.",
+                  "type": 6,
+                  "TTL": 300,
+                  "data": "ns1.hostprofis.com. hostmaster.ns1.hostprofis.com. 2024012946 14400 3600 604800 600"
+                }
+              ],
+              "Comment": "Response from 109.237.143.9."
+            }
+          },
+          "RRSIG": {
+            "type": "RRSIG",
+            "isFound": false,
+            "answer": null,
+            "response": {
+              "Status": 2,
+              "TC": false,
+              "RD": true,
+              "RA": true,
+              "AD": false,
+              "CD": false,
+              "Question": [
+                {
+                  "name": "www.ursulinen.at.",
+                  "type": 46
+                }
+              ],
+              "Comment": "Name servers refused query (lame delegation?) [109.237.143.9, 5.9.190.96].",
+              "extended_dns_errors": [
+                {
+                  "info_code": 23,
+                  "extra_text": "[109.237.143.9] rcode=REFUSED for www.ursulinen.at/rrsig"
+                },
+                {
+                  "info_code": 23,
+                  "extra_text": "[5.9.190.96] rcode=REFUSED for www.ursulinen.at/rrsig"
+                },
+                {
+                  "info_code": 22,
+                  "extra_text": "At delegation ursulinen.at for www.ursulinen.at/rrsig"
+                }
+              ]
+            }
+          }
+        }
+      },
+      {
+        "endpoint": "/firewall",
+        "response": {
+          "hasWaf": false
+        }
+      },
+      {
+        "endpoint": "/headers",
+        "response": {
+          "status": 200,
+          "headers": {
+            "date": "Sun, 19 Jan 2025 14:17:57 GMT",
+            "server": "Apache",
+            "link": "<https://www.ursulinen.at/wp-json/>; rel=\"https://api.w.org/\", <https://www.ursulinen.at/wp-json/wp/v2/pages/19>; rel=\"alternate\"; title=\"JSON\"; type=\"application/json\", <https://www.ursulinen.at/>; rel=shortlink",
+            "x-tec-api-version": "v1",
+            "x-tec-api-root": "https://www.ursulinen.at/wp-json/tribe/events/v1/",
+            "x-tec-api-origin": "https://www.ursulinen.at",
+            "keep-alive": "timeout=15, max=98",
+            "connection": "Keep-Alive",
+            "transfer-encoding": "chunked",
+            "content-type": "text/html; charset=UTF-8"
+          }
+        }
+      },
+      {
+        "endpoint": "/hsts",
+        "response": {
+          "hsts": false,
+          "summary": {
+            "hasHstsHeader": false,
+            "maxAgeSufficient": false,
+            "includesSubDomains": false,
+            "preload": false
+          }
+        }
+      },
+      {
+        "endpoint": "/http-headers",
+        "response": {
+          "domain": "www.ursulinen.at",
+          "securityHeaders": {
+            "strictTransportSecurity": false,
+            "xFrameOptions": false,
+            "xContentTypeOptions": false,
+            "xXSSProtection": false,
+            "contentSecurityPolicy": false,
+            "referrerPolicy": false,
+            "permissionsPolicy": false
+          },
+          "headers": {
+            "date": "Sun, 19 Jan 2025 14:17:59 GMT",
+            "server": "Apache",
+            "link": "<https://www.ursulinen.at/wp-json/>; rel=\"https://api.w.org/\", <https://www.ursulinen.at/wp-json/wp/v2/pages/19>; rel=\"alternate\"; title=\"JSON\"; type=\"application/json\", <https://www.ursulinen.at/>; rel=shortlink",
+            "x-tec-api-version": "v1",
+            "x-tec-api-root": "https://www.ursulinen.at/wp-json/tribe/events/v1/",
+            "x-tec-api-origin": "https://www.ursulinen.at",
+            "upgrade": "h2",
+            "connection": "Upgrade, Keep-Alive",
+            "keep-alive": "timeout=15, max=100",
+            "content-type": "text/html; charset=UTF-8"
+          }
+        }
+      },
+      {
+        "endpoint": "/ip-info",
+        "response": {
+          "ip": "188.40.2.14",
+          "family": "IPv4"
+        }
+      },
+      {
+        "endpoint": "/mail-config",
+        "response": {
+          "mxRecords": [],
+          "txtRecords": [],
+          "mailServices": []
+        }
+      },
+      {
+        "endpoint": "/ocsp-check",
+        "response": {
+          "domain": "www.ursulinen.at",
+          "status": "good",
+          "details": "Certificate is valid",
+          "nextUpdate": "2025-01-26T14:17:58.000Z"
+        }
+      },
+      {
+        "endpoint": "/ports",
+        "response": {
+          "domain": "www.ursulinen.at",
+          "openPorts": [21, 22, 25, 80, 110, 143, 443, 587, 993, 995]
+        }
+      },
+      {
+        "endpoint": "/redirects",
+        "response": {
+          "originalUrl": "https://www.ursulinen.at",
+          "redirects": ["https://www.ursulinen.at", "https://www.ursulinen.at/"]
+        }
+      },
+      {
+        "endpoint": "/ssl",
+        "response": {
+          "domain": "www.ursulinen.at",
+          "ssl": {
+            "subject": {
+              "CN": "ursulinen.at"
+            },
+            "issuer": {
+              "C": "US",
+              "O": "Let's Encrypt",
+              "CN": "R11"
+            },
+            "valid_from": "Dec 17 19:07:38 2024 GMT",
+            "valid_to": "Mar 17 19:07:37 2025 GMT",
+            "serialNumber": "03736F397876FBB7F06166275C0502F04CD6",
+            "fingerprint256": "D0:6A:D2:64:97:D1:A9:F6:BA:96:15:89:6A:08:99:91:B5:18:C8:90:51:F8:76:13:AA:E5:D6:41:5B:BC:B9:A5",
+            "subjectaltname": "DNS:ursulinen.at, DNS:www.ursulinen.at"
+          }
+        }
+      },
+      {
+        "endpoint": "/tls",
+        "response": {
+          "domain": "www.ursulinen.at",
+          "tls": {}
+        }
+      },
+      {
+        "endpoint": "/txt-records",
+        "response": {
+          "message": "No TXT records found for the given domain."
+        }
+      }
+    ]
+  }
