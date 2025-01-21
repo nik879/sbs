@@ -39,6 +39,14 @@ html_template = """
         </div>
 
         <div class="bg-white rounded-lg shadow-md p-6 mb-6">
+            <h2 class="text-2xl font-semibold text-gray-700 mb-4">Durchschnittlicher Sicherheits-Score</h2>
+            <p class="text-lg text-gray-600">Der durchschnittliche Sicherheits-Score aller Domains beträgt:</p>
+            <p class="text-3xl font-bold text-green-600 mt-2">{{ avg_security_score }} / 100</p>
+            <p class="text-sm text-gray-500 mt-2">Ein Score von 100 bedeutet, dass alle Domains den optimalen Sicherheitszustand erfüllen.</p>
+        </div>
+
+
+        <div class="bg-white rounded-lg shadow-md p-6 mb-6">
             <h2 class="text-2xl font-semibold text-gray-700 mb-4">Fehlende Sicherheitsheader</h2>
             <img src="data:image/png;base64,{{ missing_headers_plot }}" alt="Fehlende Sicherheitsheader" class="rounded-lg shadow-md mx-auto">
         </div>
@@ -109,6 +117,57 @@ html_template = """
 def load_data(file_name):
     with open(file_name, 'r', encoding='utf-8') as file:
         return json.load(file)
+
+# Berechnung des Sicherheits-Scores
+def calculate_security_score(data):
+    scores = []
+    for domain in data:
+        endpoints = domain.get("endpoints", [])
+        security_headers_missing = 0
+        open_ports = 0
+        hsts = False
+        tls = False
+        valid_ssl = False
+        dnssec_ok = True
+
+        for endpoint in endpoints:
+            response = endpoint.get("response", {})
+            if endpoint["endpoint"] == "/http-headers":
+                security_headers = response.get("securityHeaders", {})
+                security_headers_missing = sum(1 for _, present in security_headers.items() if not present)
+            if endpoint["endpoint"] == "/ports":
+                open_ports = len(response.get("openPorts", []))
+            if endpoint["endpoint"] == "/hsts":
+                hsts = response.get("hsts", False)
+            if endpoint["endpoint"] == "/tls":
+                tls = response.get("tls", False)
+            if endpoint["endpoint"] == "/ssl":
+                valid_ssl = "valid_to" in response.get("ssl", {})
+            if endpoint["endpoint"] == "/dnssec":
+                for key in ["DNSKEY", "DS", "RRSIG"]:
+                    if not response.get(key, {}).get("isFound", False):
+                        dnssec_ok = False
+
+        # Score-Berechnung
+        score = 100
+        score -= security_headers_missing * 5  # Pro fehlendem Header -5 Punkte
+        score -= open_ports * 2               # Pro offenem Port -2 Punkte
+        if not hsts:
+            score -= 10                       # Kein HSTS -10 Punkte
+        if not tls:
+            score -= 10                       # Kein TLS -10 Punkte
+        if not valid_ssl:
+            score -= 10                       # Kein gültiges SSL-Zertifikat -10 Punkte
+        if not dnssec_ok:
+            score -= 15                       # DNSSEC-Fehler -15 Punkte
+
+        # Mindestens 0 Punkte
+        scores.append(max(score, 0))
+
+    # Durchschnittlicher Score
+    avg_score = sum(scores) / len(scores) if scores else 0
+    return avg_score
+
 
 # Datenzusammenfassung hinzufügen
 def summarize_data(data):
@@ -229,6 +288,10 @@ def analyze_data():
     # Generelle zusammenfassung für Datensatz
     summary = summarize_data(data)
 
+    # Security Score
+    avg_security_score = calculate_security_score(data)
+
+
     # Clustering nach offenen Ports
     cluster_plot = cluster_analysis(data)
 
@@ -330,7 +393,8 @@ def analyze_data():
                                   dnssec_issues_plot=dnssec_issues_plot,  
                                   cluster_plot=cluster_plot,
                                   hierarchical_cluster_plot=hierarchical_cluster_plot,
-                                  summary=summary)
+                                  summary=summary,
+                                  avg_security_score=avg_security_score)
 
 if __name__ == "__main__":
     app.run(debug=True)
