@@ -55,8 +55,38 @@ html_template = """
         
         <!-- Hierarchisches Clustern -->
         <div class="bg-white rounded-lg shadow-md p-6 mb-6">
-            <h2 class="text-2xl font-semibold text-gray-700 mb-4">Hierarchische Clusteranalyse der Domains</h2>
-            <img src="data:image/png;base64,{{ hierarchical_cluster_plot }}" alt="Hierarchische Clusteranalyse" class="rounded-lg shadow-md mx-auto">
+            <h2 class="text-2xl font-semibold text-gray-700 mb-6 text-center">Clusteranalyse der Domains</h2>
+            <div class="flex justify-center mb-6">
+                <img src="data:image/png;base64,{{ hierarchical_cluster_plot }}" alt="Clusteranalyse" class="rounded-lg shadow-md max-w-full h-auto">
+            </div>
+    
+            <div class="space-y-6">
+                <div>
+                    <h3 class="text-xl font-semibold text-gray-800 mb-2">Cluster-Konfiguration</h3>
+                    <p class="text-gray-600">Die Clusteranalyse wurde mit den folgenden Merkmalen und Parametern durchgeführt:</p>
+                </div>
+
+                <!-- Verwendete Merkmale -->
+                <div class="space-y-2">
+                    <p class="font-semibold text-gray-700">Verwendete Merkmale:</p>
+                    <ul class="list-disc pl-6 space-y-1 text-gray-600">
+                        <li>Anzahl geöffneter Ports</li>
+                        <li>Fehlende Sicherheitsheader</li>
+                        <li>HSTS aktiviert</li>
+                        <li>TLS aktiviert</li>
+                    </ul>
+                </div>
+
+                <!-- Clustering-Parameter -->
+                <div class="space-y-2">
+                    <p class="font-semibold text-gray-700">Clustering-Parameter:</p>
+                    <ul class="list-disc pl-6 space-y-1 text-gray-600">
+                        <li><span class="font-semibold text-gray-800">Cluster-Methode:</span> Hierarchisches Clustering</li>
+                        <li><span class="font-semibold text-gray-800">Linkage-Methode:</span> Ward</li>
+                        <li><span class="font-semibold text-gray-800">Verwendete Distanzmetrik:</span> Euklidische Distanz</li>
+                    </ul>
+                </div>
+            </div>
         </div>
 
     </div>
