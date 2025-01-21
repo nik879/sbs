@@ -87,22 +87,25 @@ def analyze_data(data):
 def visualize_results(missing_security_headers, open_ports_counter, domains_with_hsts, domains_with_tls, valid_ssl_certificates, dnssec_issues):
     # Fehlende Sicherheitsheader
     plt.figure(figsize=(10, 6))
-    headers, counts = zip(*missing_security_headers.items())
-    plt.bar(headers, counts, color='orange')
-    plt.title('Fehlende Sicherheitsheader')
-    plt.xlabel('Header')
-    plt.ylabel('Anzahl der Domains')
-    plt.xticks(rotation=45, ha='right')
+    if missing_security_headers:
+        headers, counts = zip(*missing_security_headers.items())
+        plt.bar(headers, counts, color='orange')
+        plt.title('Fehlende Sicherheitsheader')
+        plt.xlabel('Header')
+        plt.ylabel('Anzahl der Domains')
+        plt.xticks(rotation=45, ha='right')
     plt.tight_layout()
     plt.show()
 
     # Häufigkeit geöffneter Ports
     plt.figure(figsize=(10, 6))
-    ports, counts = zip(*open_ports_counter.most_common())
-    plt.bar(ports, counts, color='blue')
-    plt.title('Häufigkeit geöffneter Ports')
-    plt.xlabel('Port')
-    plt.ylabel('Anzahl der Domains')
+    if open_ports_counter:
+        ports, counts = zip(*open_ports_counter.most_common())
+        ports = [str(port) for port in ports]  # Konvertiere Ports in Strings
+        plt.bar(ports, counts, color='blue')
+        plt.title('Häufigkeit geöffneter Ports')
+        plt.xlabel('Port')
+        plt.ylabel('Anzahl der Domains')
     plt.tight_layout()
     plt.show()
 
@@ -118,11 +121,12 @@ def visualize_results(missing_security_headers, open_ports_counter, domains_with
 
     # DNSSEC-Fehler
     plt.figure(figsize=(10, 6))
-    issues, counts = zip(*dnssec_issues.items())
-    plt.bar(issues, counts, color='red')
-    plt.title('DNSSEC-Fehler')
-    plt.xlabel('Fehler-Typ')
-    plt.ylabel('Anzahl der Domains')
+    if dnssec_issues:
+        issues, counts = zip(*dnssec_issues.items())
+        plt.bar(issues, counts, color='red')
+        plt.title('DNSSEC-Fehler')
+        plt.xlabel('Fehler-Typ')
+        plt.ylabel('Anzahl der Domains')
     plt.tight_layout()
     plt.show()
 
