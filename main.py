@@ -25,8 +25,19 @@ html_template = """
 </head>
 <body class="bg-gray-100 text-gray-800">
     <div class="container mx-auto px-4 py-6">
-        <h1 class="text-3xl font-bold mb-6 text-center text-blue-600">Statistische Auswertung der Domains</h1>
+        <h1 class="text-3xl font-bold mb-6 text-center text-blue-600">Statistische Auswertung Domain Security in Schulen</h1>
         
+        <div class="bg-white rounded-lg shadow-md p-6 mb-6">
+            <h2 class="text-2xl font-semibold text-gray-700 mb-4">Datenzusammenfassung</h2>
+            <ul class="list-disc pl-6 space-y-2 text-gray-600">
+                <li><span class="font-semibold text-gray-800">Gesamtanzahl der Domains:</span> {{ summary['total_domains'] }}</li>
+                <li><span class="font-semibold text-gray-800">Gesamtanzahl der Endpunkte:</span> {{ summary['total_endpoints'] }}</li>
+                <li><span class="font-semibold text-gray-800">Durchschnittliche Endpunkte pro Domain:</span> {{ summary['avg_endpoints_per_domain'] }}</li>
+                <li><span class="font-semibold text-gray-800">Gesamtanzahl der geöffneten Ports:</span> {{ summary['total_open_ports'] }}</li>
+                <li><span class="font-semibold text-gray-800">Durchschnittliche geöffnete Ports pro Domain:</span> {{ summary['avg_open_ports_per_domain'] }}</li>
+            </ul>
+        </div>
+
         <div class="bg-white rounded-lg shadow-md p-6 mb-6">
             <h2 class="text-2xl font-semibold text-gray-700 mb-4">Fehlende Sicherheitsheader</h2>
             <img src="data:image/png;base64,{{ missing_headers_plot }}" alt="Fehlende Sicherheitsheader" class="rounded-lg shadow-md mx-auto">
@@ -98,6 +109,25 @@ html_template = """
 def load_data(file_name):
     with open(file_name, 'r', encoding='utf-8') as file:
         return json.load(file)
+
+# Datenzusammenfassung hinzufügen
+def summarize_data(data):
+    total_domains = len(data)
+    total_endpoints = sum(len(domain.get("endpoints", [])) for domain in data)
+    avg_endpoints_per_domain = total_endpoints / total_domains if total_domains > 0 else 0
+    total_open_ports = sum(len(endpoint.get("response", {}).get("openPorts", []))
+                           for domain in data for endpoint in domain.get("endpoints", []) if endpoint["endpoint"] == "/ports")
+    avg_open_ports_per_domain = total_open_ports / total_domains if total_domains > 0 else 0
+
+    summary = {
+        "total_domains": total_domains,
+        "total_endpoints": total_endpoints,
+        "avg_endpoints_per_domain": avg_endpoints_per_domain,
+        "total_open_ports": total_open_ports,
+        "avg_open_ports_per_domain": avg_open_ports_per_domain
+    }
+    return summary
+
 
 def hierarchical_cluster_analysis(data):
     features = []
@@ -195,8 +225,14 @@ def create_plot():
 def analyze_data():
     data = load_data("StatisticsMittelschulen.json")
     total_domains = len(data)
+
+    # Generelle zusammenfassung für Datensatz
+    summary = summarize_data(data)
+
+    # Clustering nach offenen Ports
     cluster_plot = cluster_analysis(data)
-        # Hierarchische Clusteranalyse
+
+    # Hierarchische Clusteranalyse
     hierarchical_cluster_plot = hierarchical_cluster_analysis(data)
 
 
@@ -291,7 +327,10 @@ def analyze_data():
                                   missing_headers_plot=missing_headers_plot,
                                   open_ports_plot=open_ports_plot,
                                   hsts_tls_plot=hsts_tls_plot,
-                                  dnssec_issues_plot=dnssec_issues_plot,  cluster_plot=cluster_plot, hierarchical_cluster_plot=hierarchical_cluster_plot)
+                                  dnssec_issues_plot=dnssec_issues_plot,  
+                                  cluster_plot=cluster_plot,
+                                  hierarchical_cluster_plot=hierarchical_cluster_plot,
+                                  summary=summary)
 
 if __name__ == "__main__":
     app.run(debug=True)
